@@ -5,7 +5,7 @@ export default function Index() {
     <View
       style={styles.container}
     >
-      <Text>Edit app/index.jsx to edit this screen.</Text>
+      <Text style={styles.text}>Edit app/index.jsx to edit this screen.</Text>
     </View>
   );
 }
@@ -16,5 +16,8 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "#021123",
+      },
+      text: {
+        color: "#fff",
       }
 })
