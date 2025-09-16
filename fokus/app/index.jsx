@@ -1,15 +1,54 @@
+import { useState } from "react";
 import { Text, View, StyleSheet, Image, Pressable, ScrollView } from "react-native";
 
+const pomodoro = [
+  {
+    id: 'focus',
+    initialValue: 25,
+    image: require('./pomodoro.png'),
+    display: 'Foco'
+  },
+  {
+    id: 'short',
+    initialValue: 5,
+    image: require('./short.png'),
+    display: 'Pausa curta'
+  },
+  {
+    id: 'long',
+    initialValue: 15,
+    image: require('./long.png'),
+    display: 'Pausa longa'
+  }
+]
+
 export default function Index() {
+
+  const [timerType, setTimerType] = useState(pomodoro[0])
+
   return (
     <ScrollView>
       <View
         style={styles.container}
       >
-        <Image source={require('./pomodoro.png')}/>
+        <Image source={timerType.image}/>
         <View style={styles.actions}>
+          <View style={styles.context}>
+            {pomodoro.map(p => (  
+              <Pressable 
+                key={p.id}
+                style={ timerType.id === p.id ? styles.contextButtonActive : null }
+                onPress={ () => setTimerType(p) }
+              >
+                <Text style={styles.contextButtonText}>
+                  {p.display}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
           <Text style={styles.timer}>
-            25:00
+            { new Date(timerType.initialValue * 1000)
+                    .toLocaleTimeString('pt-BR', { minute: '2-digit', second: '2-digit'}) }
           </Text>
           <Pressable style={styles.button}>
             <Text style={styles.buttonText}>
@@ -43,6 +82,20 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#144480",
     gap: 32
+  },
+  context: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center'
+  },
+  contextButtonActive: {
+    backgroundColor: '#144480',
+    borderRadius: 8,
+  },
+  contextButtonText: {
+    fontSize: 12.5,
+    color: '#FFF',
+    padding: 8
   },
   timer: {
     color: '#FFF',
